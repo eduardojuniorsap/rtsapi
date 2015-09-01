@@ -21,6 +21,9 @@ Route::get('engineer/{engineer_id}/schedule', 'EngineerController@schedule');
 Route::get('engineer/{engineer_id}', 'EngineerController@show');
 Route::get('engineer/byiuser/{iuser}', 'EngineerController@getIdByIuser');
 
+Route::get('customer/mm/', 'ScheduleController@getMM');
+Route::get('customer/srm/', 'ScheduleController@getSRM');
+
 Route::post('engineer', 'EngineerController@store');
 Route::post('engineer/{engineer_id}', 'EngineerController@update');
 
