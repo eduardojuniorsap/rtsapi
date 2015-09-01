@@ -32,3 +32,5 @@ Route::post('engineer/schedule/{engineer_id}', 'EngineerController@storeSchedule
 
 Route::get('area', 'AreaController@index');
 Route::post('area', 'AreaController@store');
+
+Route::get('time', 'ScheduleController@isOnTime');
