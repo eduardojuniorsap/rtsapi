@@ -58,12 +58,15 @@ class ChatController extends Controller
       $e->available = 0;
       $e->save();
 
-        if ($request["engineer_email"]) {
+      $post_data = $request->all();
+
+
+        if ($post_data["engineer_email"]) {
           //Send e-mail to responsible engineer
-          $mail = Mail::raw("You have receixed a new chat request, please check the cool.<br />Sincerely,<br />RTS Tool", function ($message) {
-            $message->from('saplabsla@gmail.com', 'RTS Tool');
-            $message->to($request["engineer_email"])->subject('New RTS request!');
-          });
+            $mail = Mail::raw("You have receixed a new chat request, please check the cool.<br />Sincerely,<br />RTS Tool", function ($message) {
+              $message->from('saplabsla@gmail.com', 'RTS Tool');
+              $message->to($post_data["engineer_email"])->subject('New RTS request!');
+            });
         }
 
         return Chat::create($request->all());
