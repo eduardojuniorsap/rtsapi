@@ -31,6 +31,18 @@ class ChatController extends Controller
         //
     }
 
+
+    public function email() {
+      $mail = Mail::raw('Please check the tool!', function ($message) {
+        $message->from('saplabsla@gmail.com', 'RTS Tool');
+        $message->to("edujr.silva@gmail.com")->subject('New chat request');
+      });
+
+      return $mail;
+
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
