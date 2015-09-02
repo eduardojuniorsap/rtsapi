@@ -53,7 +53,7 @@ class ChatController extends Controller
     public function store(Request $request)
     {
 
-      We need to set the Engineer as unavailable
+      //We need to set the Engineer as unavailable
       $e = Engineer::find($request["engineer_id"]);
       $e->available = 0;
       $e->save();
