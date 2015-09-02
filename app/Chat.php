@@ -17,6 +17,7 @@ class Chat extends Model
       'logon_data',
       'email',
       'closed',
+      'date',
       'started',
       'ended',
       'issue_type',
