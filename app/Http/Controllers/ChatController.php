@@ -58,10 +58,6 @@ class ChatController extends Controller
       $e->available = 0;
       $e->save();
 
-        return [
-          "engineer" => $request["engineer_email"]
-        ];
-
         if ($request["engineer_email"]) {
           //Send e-mail to responsible engineer
           $mail = Mail::raw("You have receixed a new chat request, please check the cool.<br />Sincerely,<br />RTS Tool", function ($message) {
