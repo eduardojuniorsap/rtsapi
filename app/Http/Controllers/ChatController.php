@@ -33,7 +33,7 @@ class ChatController extends Controller
     }
 
 
-    public function email() {
+    public function _email() {
       $mail = Mail::raw('Please check the tool!', function ($message) {
         $message->from('saplabsla@gmail.com', 'RTS Tool');
         $message->to("edujr.silva@gmail.com")->subject('New chat request');
@@ -60,9 +60,9 @@ class ChatController extends Controller
 
         if ($request->engineer_email) {
           //Send e-mail to responsible engineer
-          Mail::raw('Please check the tool!', function ($message) {
+          Mail::raw('You have receixed a new chat request, please check the cool.<br />Sincerely,<br />RTS Tool', function ($message) {
             $message->from('saplabsla@gmail.com', 'RTS Tool');
-            $message->to($request->engineer_email)->subject('New chat request');
+            $message->to($request->engineer_email)->subject('New RTS request!');
           });
         }
 
