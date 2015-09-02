@@ -8,6 +8,7 @@ class Chat extends Model
 {
     protected $fillable = [
       'engineer_id',
+      'area_id',
       'suser',
       'customer_number',
       'installation_number',
@@ -21,4 +22,12 @@ class Chat extends Model
       'issue_type',
       'has_incident'
     ];
+
+    public function engineer() {
+      return $this->hasOne(Engineer::class);
+    }
+
+    public function area() {
+      return $this->hasOne(Area::class);
+    }
 }
