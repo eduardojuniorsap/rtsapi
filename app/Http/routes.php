@@ -35,3 +35,5 @@ Route::get('area', 'AreaController@index');
 Route::post('area', 'AreaController@store');
 
 Route::post('chat', 'ChatController@store');
+
+Route::get('mail', 'ChatController@email');
