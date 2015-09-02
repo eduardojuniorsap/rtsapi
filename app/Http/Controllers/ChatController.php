@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Chat;
 use App\Engineer;
+use Mail;
 
 class ChatController extends Controller
 {
