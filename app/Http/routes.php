@@ -20,6 +20,9 @@ Route::get('engineer/{engineer_id}/assignments', 'EngineerController@areasLeft')
 Route::get('engineer/{engineer_id}/schedule', 'EngineerController@schedule');
 Route::get('engineer/{engineer_id}', 'EngineerController@show');
 Route::get('engineer/byiuser/{iuser}', 'EngineerController@getIdByIuser');
+Route::get('engineer/chat/{engineer_id}', 'EngineerController@chat');
+Route::get('engineer/openChat/{engineer_id}', 'EngineerController@openChat');
+Route::get('engineer/closedChat/{engineer_id}', 'EngineerController@closedChat');
 
 Route::get('customer/mm/', 'ScheduleController@getMM');
 Route::get('customer/srm/', 'ScheduleController@getSRM');
@@ -31,9 +34,9 @@ Route::post('engineer/area/{engineer_id}', 'EngineerController@storeArea');
 Route::post('engineer/schedule/{engineer_id}', 'EngineerController@storeSchedule');
 
 Route::get('area', 'AreaController@index');
-
 Route::post('area', 'AreaController@store');
 
 Route::post('chat', 'ChatController@store');
+Route::post('session/{session_id}', 'ChatController@update');
 
 Route::get('mail', 'ChatController@email');

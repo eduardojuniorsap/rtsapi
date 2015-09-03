@@ -197,7 +197,7 @@ class ScheduleController extends Controller
       if ($date_start <= $now && $date_start->format('Y-m-d') != $now->format('Y-m-d') ) {
         $isPast = true;
       }
-
+      
       return $isPast;
     }
 

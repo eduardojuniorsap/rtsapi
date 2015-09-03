@@ -53,11 +53,10 @@ class ChatController extends Controller
     {
 
       //We need to set the Engineer as unavailable
-      //$e = Engineer::find($request["engineer_id"]);
-      //$e->available = 0;
-      //$e->save();
+      $e = Engineer::find($request["engineer_id"]);
+      $e->available = 0;
+      $e->save();
 
-/*
       $post_data = $request->all();
 
         if (!$post_data["engineer_email"]) {
@@ -67,13 +66,7 @@ class ChatController extends Controller
               $message->to($post_data["engineer_email"])->subject('New RTS request!');
             });
         }
-
         return Chat::create($request->all());
-        */
-
-        return [
-        "Ok" => 1
-        ];
     }
 
     /**
@@ -107,7 +100,15 @@ class ChatController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $c = Chat::findOrNew($id);
+
+        $input = $request->all();
+
+        $c->fill($input)->save();
+
+        return [
+            "success" => true
+        ];
     }
 
     /**

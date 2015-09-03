@@ -29,7 +29,7 @@ class EngineerController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -154,5 +154,17 @@ class EngineerController extends Controller
     public function schedule($id)
     {
         return Engineer::findOrNew($id)->schedule;
+    }
+
+    public function chat($engineer_id) {
+        return Engineer::find($engineer_id)->chat;
+    }
+
+    public function openChat($engineer_id) {
+        return Engineer::find($engineer_id)->openChat;
+    }
+
+    public function closedChat($engineer_id) {
+        return Engineer::find($engineer_id)->closedChat;
     }
 }
