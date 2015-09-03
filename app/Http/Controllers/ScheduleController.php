@@ -194,8 +194,8 @@ class ScheduleController extends Controller
       $now = new \DateTime("now");
       $now->setTimezone($tz_object);
 
-      echo $now->$date_start('Y-m-d') . "< /br>";
-      echo $now->format('Y-m-d') . "< /br>";
+      echo $date_start->format('Y-m-d') . "< /br>";
+      echo $now->format('Y-m-d') . "< /br>";;
 
       if ($date_start <= $now) {
         $isPast = true;
