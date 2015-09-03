@@ -87,44 +87,63 @@ class ScheduleController extends Controller
     }
 
     public function getMM() {
-      $list = DB::table('schedules as s')
-        ->join('engineers as e', 's.engineer_id', '=', 'e.id')
-        ->join('engineer_areas as ea', 'e.id', '=', 'ea.engineer_id')
-        ->join('areas as a', 'ea.area_id', '=', 'a.id')
-        ->select('e.id as engineer_id', 'a.id as area_id', 's.date', 'e.name as engineer', 'e.email as engineer_email', 'e.available', 's.date', 's.start', 's.end', 'a.name as area', 'a.component')
-        ->where('component', 'LIKE', 'MM%')
-          ->orderBy('date')
-          ->get();
+        $list = DB::table('schedules as s')
+            ->join('engineers as e', 's.engineer_id', '=', 'e.id')
+            ->join('engineer_areas as ea', 'e.id', '=', 'ea.engineer_id')
+            ->join('areas as a', 'ea.area_id', '=', 'a.id')
+            ->select('e.id as engineer_id', 'a.id as area_id', 's.date', 'e.name as engineer', 'e.email as engineer_email', 'e.available', 's.date', 's.start', 's.end', 'a.name as area', 'a.component')
+            ->where('component', 'LIKE', 'MM%')
+            ->orderBy('date')
+            ->get();
 
-        $newObj = [];
+            $newObj = [];
 
-        $current_date = null;
-        foreach ($list as $i => $obj) {
-          $newObj[$obj->date]['date'] = $obj->date;
-          $obj->onTime = $this->isOnTime($obj->date, $obj->start, $obj->end);
-          $newObj[$obj->date]['data'][] = $obj;
-        }
+            if ($list) {
+                foreach ($list as $i => $obj) {
 
-        return $newObj;
+                    if (!$this->isPast($obj->date)) {
+                        $newObj[$obj->date]['date'] = $obj->date;
+                        $obj->onTime = $this->isOnTime($obj->date, $obj->start, $obj->end);
+                        $newObj[$obj->date]['data'][] = $obj;
+                    }
+                }
+            } else {
+                $newObj = [
+                    "no_entries" => true
+                ];
+            }
+
+            return $newObj;
     }
 
     public function getSRM() {
-      $list = DB::table('schedules as s')
-        ->join('engineers as e', 's.engineer_id', '=', 'e.id')
-        ->join('engineer_areas as ea', 'e.id', '=', 'ea.engineer_id')
-        ->join('areas as a', 'ea.area_id', '=', 'a.id')
-        ->select('e.id as engineer_id', 'a.id as area_id', 's.date', 'e.name as engineer', 'e.email as engineer_email', 'e.available', 's.date', 's.start', 's.end', 'a.name as area', 'a.component')
-        ->where('component', 'LIKE', 'SRM%')
-          ->orderBy('date')
-          ->get();
+        $list = DB::table('schedules as s')
+            ->join('engineers as e', 's.engineer_id', '=', 'e.id')
+            ->join('engineer_areas as ea', 'e.id', '=', 'ea.engineer_id')
+            ->join('areas as a', 'ea.area_id', '=', 'a.id')
+            ->select('e.id as engineer_id', 'a.id as area_id', 's.date', 'e.name as engineer', 'e.email as engineer_email', 'e.available', 's.date', 's.start', 's.end', 'a.name as area', 'a.component')
+            ->where('component', 'LIKE', 'SRM%')
+            ->orderBy('date')
+            ->get();
 
-      $newObj = [];
-      foreach ($list as $obj => $i) {
-        $newObj[$i]->date = $list->date;
-        //$newObj[$i]->data = $list;
-      }
+        $newObj = [];
 
-      return $newObj;
+        if ($list) {
+            foreach ($list as $i => $obj) {
+
+                if (!$this->isPast($obj->date)) {
+                    $newObj[$obj->date]['date'] = $obj->date;
+                    $obj->onTime = $this->isOnTime($obj->date, $obj->start, $obj->end);
+                    $newObj[$obj->date]['data'][] = $obj;
+                }
+            }
+        } else {
+            $newObj = [
+                "no_entries" => true
+            ];
+        }
+
+        return $newObj;
     }
 
     private function isOnTime($date, $time_start, $time_end) {
@@ -157,6 +176,30 @@ class ScheduleController extends Controller
       }
 
       return $isOnTime;
+    }
+
+    public function isPast($date) {
+
+      $isPast = false;
+
+      $date = explode("-", $date);
+
+      $tz_string = "America/Sao_Paulo";
+      $tz_object = new \DateTimeZone($tz_string);
+
+      $date_start = new \DateTime();
+      $date_start->setTimezone($tz_object);
+      $date_start->setDate($date[0], $date[1], $date[2]);
+
+      $now = new \DateTime("now");
+      $now->setTimezone($tz_object);
+
+
+      if ($date_start <= $now) {
+        $isPast = true;
+      }
+
+      return $isPast;
     }
 
 }

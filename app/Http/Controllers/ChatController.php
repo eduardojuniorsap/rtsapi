@@ -32,7 +32,6 @@ class ChatController extends Controller
         //
     }
 
-
     public function _email() {
       $mail = Mail::raw('Please check the tool!', function ($message) {
         $message->from('saplabsla@gmail.com', 'RTS Tool');
@@ -54,14 +53,14 @@ class ChatController extends Controller
     {
 
       //We need to set the Engineer as unavailable
-      $e = Engineer::find($request["engineer_id"]);
-      $e->available = 0;
-      $e->save();
+      //$e = Engineer::find($request["engineer_id"]);
+      //$e->available = 0;
+      //$e->save();
 
+/*
       $post_data = $request->all();
 
-
-        if ($post_data["engineer_email"]) {
+        if (!$post_data["engineer_email"]) {
           //Send e-mail to responsible engineer
             $mail = Mail::raw("You have receixed a new chat request, please check the cool now!", function ($message) use ($post_data) {
               $message->from('saplabsla@gmail.com', 'RTS Tool');
@@ -70,6 +69,11 @@ class ChatController extends Controller
         }
 
         return Chat::create($request->all());
+        */
+
+        return [
+        "Ok" => 1
+        ];
     }
 
     /**
