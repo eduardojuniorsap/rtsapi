@@ -32,17 +32,6 @@ class ChatController extends Controller
         //
     }
 
-    public function _email() {
-      $mail = Mail::raw('Please check the tool!', function ($message) {
-        $message->from('saplabsla@gmail.com', 'RTS Tool');
-        $message->to("edujr.silva@gmail.com")->subject('New chat request');
-      });
-
-      return $mail;
-
-    }
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -62,12 +51,12 @@ class ChatController extends Controller
         if ($post_data["engineer_email"]) {
 
           //Send e-mail to responsible engineer
-            $mail = Mail::raw("You have receixed a new chat request, please check the cool now!", function ($message) use ($post_data) {
+            $mail = Mail::raw("You have receixed a new chat request, please check the tool now!", function ($message) use ($post_data) {
               $message->from('saplabsla@gmail.com', 'RTS Tool');
               $message->to($post_data["engineer_email"])->subject('New RTS request!');
             });
         }
-        
+
         return Chat::create($request->all());
     }
 

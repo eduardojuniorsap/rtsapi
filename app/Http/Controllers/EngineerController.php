@@ -19,7 +19,7 @@ class EngineerController extends Controller
      */
     public function index()
     {
-        return Engineer::all();
+        return  Engineer::orderBy('name')->get();
     }
 
     /**
