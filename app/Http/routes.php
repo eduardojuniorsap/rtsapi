@@ -26,6 +26,7 @@ Route::get('engineer/closedChat/{engineer_id}', 'EngineerController@closedChat')
 
 Route::get('customer/mm/', 'ScheduleController@getMM');
 Route::get('customer/srm/', 'ScheduleController@getSRM');
+Route::get('customer/schedule/{schedule_id}', 'ScheduleController@show');
 
 Route::post('engineer', 'EngineerController@store');
 Route::post('engineer/{engineer_id}', 'EngineerController@update');

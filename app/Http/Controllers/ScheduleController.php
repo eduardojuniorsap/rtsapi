@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Schedule;
 use DB;
 
 class ScheduleController extends Controller
@@ -49,7 +50,28 @@ class ScheduleController extends Controller
      */
     public function show($id)
     {
-        //
+        $s = [];
+        $s[] = Schedule::find($id);
+
+        $newObj = [];
+
+            if ($s) {
+                foreach ($s as $i => $obj) {
+
+                    if (!$this->isPast($obj->date)) {
+                        $newObj[$i] = $obj->date;
+                        $obj->onTime = $this->isOnTime($obj->date, $obj->start, $obj->end);
+                        $newObj[$i] = $obj;
+                    }
+                }
+                $newObj = $newObj[0];
+            } else {
+                $newObj = [
+                    "no_entries" => true
+                ];
+            }
+
+            return $newObj;
     }
 
     /**
@@ -91,7 +113,7 @@ class ScheduleController extends Controller
             ->join('engineers as e', 's.engineer_id', '=', 'e.id')
             ->join('engineer_areas as ea', 'e.id', '=', 'ea.engineer_id')
             ->join('areas as a', 'ea.area_id', '=', 'a.id')
-            ->select('e.id as engineer_id', 'a.id as area_id', 's.date', 'e.name as engineer', 'e.email as engineer_email', 'e.available', 's.date', 's.start', 's.end', 'a.name as area', 'a.component')
+            ->select('s.id', 'e.id as engineer_id', 'a.id as area_id', 's.date', 'e.name as engineer', 'e.email as engineer_email', 'e.available', 's.date', 's.start', 's.end', 'a.name as area', 'a.component')
             ->where('component', 'LIKE', 'MM%')
             ->orderBy('date')
             ->get();
@@ -197,7 +219,7 @@ class ScheduleController extends Controller
       if ($date_start <= $now && $date_start->format('Y-m-d') != $now->format('Y-m-d') ) {
         $isPast = true;
       }
-      
+
       return $isPast;
     }
 
