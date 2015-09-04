@@ -52,20 +52,22 @@ class ChatController extends Controller
     public function store(Request $request)
     {
 
-      //We need to set the Engineer as unavailable
-      $e = Engineer::find($request["engineer_id"]);
-      $e->available = 0;
-      $e->save();
+        //We need to set the Engineer as unavailable
+        $e = Engineer::find($request["engineer_id"]);
+        $e->available = 0;
+        $e->save();
 
-      $post_data = $request->all();
+        $post_data = $request->all();
 
-        if (!$post_data["engineer_email"]) {
+        if ($post_data["engineer_email"]) {
+
           //Send e-mail to responsible engineer
             $mail = Mail::raw("You have receixed a new chat request, please check the cool now!", function ($message) use ($post_data) {
               $message->from('saplabsla@gmail.com', 'RTS Tool');
               $message->to($post_data["engineer_email"])->subject('New RTS request!');
             });
         }
+        
         return Chat::create($request->all());
     }
 
