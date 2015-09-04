@@ -143,7 +143,7 @@ class ScheduleController extends Controller
             ->join('engineers as e', 's.engineer_id', '=', 'e.id')
             ->join('engineer_areas as ea', 'e.id', '=', 'ea.engineer_id')
             ->join('areas as a', 'ea.area_id', '=', 'a.id')
-            ->select('e.id as engineer_id', 'a.id as area_id', 's.date', 'e.name as engineer', 'e.email as engineer_email', 'e.available', 's.date', 's.start', 's.end', 'a.name as area', 'a.component')
+            ->select('s.id', 'e.id as engineer_id', 'a.id as area_id', 's.date', 'e.name as engineer', 'e.email as engineer_email', 'e.available', 's.date', 's.start', 's.end', 'a.name as area', 'a.component')
             ->where('component', 'LIKE', 'SRM%')
             ->orderBy('date')
             ->get();
